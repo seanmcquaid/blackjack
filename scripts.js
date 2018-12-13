@@ -144,3 +144,5 @@ function endGame(){
 // end game must create text to indicate game is over
 // 2. make page look like actual casino table
 // 3. change aces so that if total > 21 , the ace is a 1 and if the total < 21, the ace is 11
+
+// check out off in jquery to turn off event listeners
