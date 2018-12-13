@@ -111,5 +111,29 @@ function cardTotal(hand, who){
 }
 
 function checkWinner(){
+    const playerTotal = cardTotal(playerHand,'player');
+    const dealerTotal = cardTotal(dealerHand,'dealer');
+    if(playerTotal > 21){
+        console.log("player loses");
+    }else if (dealerTotal > 21){
+        console.log("dealer loses")
+    }else if (playerTotal === 21 && playerHand.length === 2){
+        console.log("blackjack for the player!")
+    }else if (dealerTotal === 21 & dealerHand.length === 2){
+        console.log("blackjack for the dealer")
+    }else if (playerTotal > dealerTotal){
+        console.log("Player wins!")
+    }else if (dealerTotal > playerTotal){
+        console.log("Dealer wins!")
+    }else if(playerTotal === dealerTotal){
+        console.log("you tied.....but the dealer wins.....NEEEERDDD")
+    }
 
+    // 1. If the player has > 21, player busts and loses.
+    // 2. If the dealer has > 21, dealer busts and loses.
+    // 3. If playersHand.length == 2 AND playerTotal == 21... BLACKJACK
+    // 4. If dealerHand.length == 2 AND dealersTotal == 21... BLACKJACK
+    // 5. If player > dealer, player wins
+    // 6. if dealer > player, dealer wins
+    // 7. else... push (tie)
 }
