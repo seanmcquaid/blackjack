@@ -38,6 +38,7 @@ $(".hit-button").click(()=>{
     playerHand.push(topCard);
     placeCard("player", playerHand.length, topCard);
     cardTotal(playerHand, "player");
+    checkWinner();
 })
 
 $(".stand-button").click(()=>{
@@ -110,9 +111,13 @@ function cardTotal(hand, who){
     return handTotal
 }
 
+function checkPlayer(){
+    const playerTotal = cardTotal(playerHand,"player");
+}
+
 function checkWinner(){
-    const playerTotal = cardTotal(playerHand,'player');
-    const dealerTotal = cardTotal(dealerHand,'dealer');
+    const playerTotal = cardTotal(playerHand,"player");
+    const dealerTotal = cardTotal(dealerHand,"dealer");
     if(playerTotal > 21){
         console.log("player loses");
     }else if (dealerTotal > 21){
@@ -128,12 +133,14 @@ function checkWinner(){
     }else if(playerTotal === dealerTotal){
         console.log("you tied.....but the dealer wins.....NEEEERDDD")
     }
-
-    // 1. If the player has > 21, player busts and loses.
-    // 2. If the dealer has > 21, dealer busts and loses.
-    // 3. If playersHand.length == 2 AND playerTotal == 21... BLACKJACK
-    // 4. If dealerHand.length == 2 AND dealersTotal == 21... BLACKJACK
-    // 5. If player > dealer, player wins
-    // 6. if dealer > player, dealer wins
-    // 7. else... push (tie)
 }
+
+function endGame(){
+
+}
+
+// to do :
+// 1. end game function that turns off all click listeners
+// end game must create text to indicate game is over
+// 2. make page look like actual casino table
+// 3. change aces so that if total > 21 , the ace is a 1 and if the total < 21, the ace is 11
