@@ -102,24 +102,25 @@ function cardTotal(hand, who){
         // copy everything in the string except for the last character
         let thisCardsValue = card.slice(0,-1);
         if(thisCardsValue > 10){
-            thisCardsValue = 10
+            thisCardsValue = 10;
+        } else if (thisCardsValue == 1 && handTotal < 21){
+            thisCardsValue = 11;
+            // need to fix this logic
+        } else if (thisCardsValue == 1 && handTotal > 21){
+            thisCardsValue = 1;
         }
         handTotal += Number(thisCardsValue);
     })
     const classSelector = `.${who}-total`;
-    $(classSelector).html(handTotal);
+    $(classSelector).html(`${who} : ${handTotal}`);
     return handTotal
-}
-
-function checkPlayer(){
-    const playerTotal = cardTotal(playerHand,"player");
 }
 
 function checkWinner(){
     const playerTotal = cardTotal(playerHand,"player");
     const dealerTotal = cardTotal(dealerHand,"dealer");
     if(playerTotal > 21){
-        console.log("player loses");
+        console.log("player loses")
     }else if (dealerTotal > 21){
         console.log("dealer loses")
     }else if (playerTotal === 21 && playerHand.length === 2){
@@ -136,7 +137,7 @@ function checkWinner(){
 }
 
 function endGame(){
-
+    // turn off all event listeners except deal next hand
 }
 
 // to do :
