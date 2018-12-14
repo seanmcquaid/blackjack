@@ -3,6 +3,36 @@ const freshDeck = createDeck();
 let theDeck = freshDeck.slice();
 let playerHand = [];
 let dealerHand = [];
+let gameOn = true;
+
+$(".next-round-button").click(()=>{
+    playerHand = [];
+    dealerHand = [];
+    $(".card").html("");
+    theDeck = freshDeck.slice()
+    shuffleDeck(theDeck);
+    // we have a shuffled deck, now give the players their cards
+    // get the first element off of the deck and put it in top card
+    let topCard = theDeck.shift();
+    // put top card in the player hand array
+    playerHand.push(topCard);
+    // take next card in deck
+    topCard = theDeck.shift();
+    dealerHand.push(topCard);
+
+    topCard = theDeck.shift();
+    playerHand.push(topCard);
+    
+    topCard = theDeck.shift();
+    dealerHand.push(topCard);
+
+    placeCard("Player", 1, playerHand[0]);
+    placeCard("Dealer", 1, dealerHand[0]);
+    placeCard("Player", 2, playerHand[1]);
+    placeCard("Dealer", 2, dealerHand[1]);
+    cardTotal(playerHand, "Player");
+    cardTotal(dealerHand, "Dealer");
+})
 
 $(".deal-button").click(()=>{
     // we need a deck!
@@ -24,34 +54,33 @@ $(".deal-button").click(()=>{
     topCard = theDeck.shift();
     dealerHand.push(topCard);
 
-    placeCard("player", 1, playerHand[0]);
-    placeCard("dealer", 1, dealerHand[0]);
-    placeCard("player", 2, playerHand[1]);
-    placeCard("dealer", 2, dealerHand[1]);
-    cardTotal(playerHand, "player");
-    cardTotal(dealerHand, "dealer");
-
+    placeCard("Player", 1, playerHand[0]);
+    placeCard("Dealer", 1, dealerHand[0]);
+    placeCard("Player", 2, playerHand[1]);
+    placeCard("Dealer", 2, dealerHand[1]);
+    cardTotal(playerHand, "Player");
+    cardTotal(dealerHand, "Dealer");
+    // $(".deal-button").css("display", "none");
 })
 
 $(".hit-button").click(()=>{
     const topCard = theDeck.shift();
     playerHand.push(topCard);
-    placeCard("player", playerHand.length, topCard);
-    cardTotal(playerHand, "player");
+    placeCard("Player", playerHand.length, topCard);
+    cardTotal(playerHand, "Player");
     checkWinner();
 })
 
 $(".stand-button").click(()=>{
-    let dealersTotal = cardTotal(dealerHand, "dealer");
+    let dealersTotal = cardTotal(dealerHand, "Dealer");
     while (dealersTotal < 17) {
         const topCard = theDeck.shift();
         dealerHand.push(topCard);
-        placeCard("dealer", dealerHand.length, topCard);
-        dealersTotal = cardTotal(dealerHand, "dealer");
+        placeCard("Dealer", dealerHand.length, topCard);
+        dealersTotal = cardTotal(dealerHand, "Dealer");
     }
     checkWinner();
 })
-
 
 function createDeck(){
     // this is a local variable, no one will know about this but this function
@@ -97,53 +126,69 @@ function cardTotal(hand, who){
     // 1. find out the number and return it to update the DOM with the right number for whoevers hand it is
     // 2. update the dom
     let handTotal = 0;
+    let hasAce = false;
     hand.forEach((card, i)=>{
         // console.log(card);
         // copy everything in the string except for the last character
         let thisCardsValue = card.slice(0,-1);
         if(thisCardsValue > 10){
             thisCardsValue = 10;
-        } else if (thisCardsValue == 1 && handTotal < 21){
-            thisCardsValue = 11;
+        } else if (thisCardsValue == 1){
+            hasAce = true;
             // need to fix this logic
-        } else if (thisCardsValue == 1 && handTotal > 21){
-            thisCardsValue = 1;
-        }
+        } 
         handTotal += Number(thisCardsValue);
     })
+    if (handTotal > 21 && hasAce === true){
+        handTotal -= 10;
+    }
     const classSelector = `.${who}-total`;
     $(classSelector).html(`${who} : ${handTotal}`);
     return handTotal
 }
 
 function checkWinner(){
-    const playerTotal = cardTotal(playerHand,"player");
-    const dealerTotal = cardTotal(dealerHand,"dealer");
+    const playerTotal = cardTotal(playerHand,"Player");
+    const dealerTotal = cardTotal(dealerHand,"Dealer");
+    let resultsMessage = $(".result")
     if(playerTotal > 21){
-        console.log("player loses")
+        stopGame();
+        resultsMessage.html("Player Loses")
     }else if (dealerTotal > 21){
-        console.log("dealer loses")
+        stopGame();
+        resultsMessage.html("dealer loses")
     }else if (playerTotal === 21 && playerHand.length === 2){
-        console.log("blackjack for the player!")
+        stopGame();
+        resultsMessage.html("blackjack for the player!")
     }else if (dealerTotal === 21 & dealerHand.length === 2){
-        console.log("blackjack for the dealer")
+        stopGame();
+        resultsMessage.html("blackjack for the dealer")
     }else if (playerTotal > dealerTotal){
-        console.log("Player wins!")
+        stopGame();
+        resultsMessage.html("Player wins!")
     }else if (dealerTotal > playerTotal){
-        console.log("Dealer wins!")
+        stopGame();
+        resultsMessage.html("Dealer wins!")
     }else if(playerTotal === dealerTotal){
-        console.log("you tied.....but the dealer wins.....NEEEERDDD")
+        stopGame();
+        resultsMessage.html("you tied.....but the dealer wins.....NEEEERDDD")
     }
 }
 
-function endGame(){
+function stopGame(){
     // turn off all event listeners except deal next hand
+    $(".hit-button").off("click");
+    $(".stand-button").off("click");
+    $(".hit-button").css("display", "none");
+    $(".stand-button").css("display", "none");
+    $(".next-round-button").css("display", "block");
 }
 
 // to do :
-// 1. end game function that turns off all click listeners
-// end game must create text to indicate game is over
-// 2. make page look like actual casino table
-// 3. change aces so that if total > 21 , the ace is a 1 and if the total < 21, the ace is 11
-
-// check out off in jquery to turn off event listeners
+// 1. make page look like actual casino table
+// 2. change aces so that if total > 21 , the ace is a 1 and if the total < 21, the ace is 11
+// 3. include split option if two cards are equal and deal them an additional card
+// 4. make deal button that will deal new hand for the player
+// 5. include "count for counting cards"
+// 6. create start screen
+// 7. only reveal 
