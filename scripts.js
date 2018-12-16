@@ -190,11 +190,7 @@ function stopGame(){
 }
 
 // to do :
-// 1. make page look like actual casino table
-// 2. change aces so that if total > 21 , the ace is a 1 and if the total < 21, the ace is 11
-// 3. include split option if two cards are equal and deal them an additional card
-// 4. make deal button that will deal new hand for the player
-// 5. include "count for counting cards"
-// 6. create start screen
-// 7. only reveal 
-// 8. 
+// 1. include split option if two cards are equal and deal them an additional card
+// 2. make deal button that will deal new hand for the player
+// 3. include "count for counting cards"
+// 4. fix functionality to reflect actual game flow

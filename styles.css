@@ -14,19 +14,20 @@ body {
     align-items: center;
 }
 
-.start-game-button{
+.start-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+button .start-game-button{
     font-family: 'Archivo Narrow', sans-serif;
     width: 60px;
     height: 30px;
     margin: 10px;
     border-radius: 10px;
-    
-}
-
-.start-screen {
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
 }
 
 
@@ -51,6 +52,7 @@ body {
 .result {
     text-align: center;
     margin: 10px;
+    height: 32px;
 }
 
 .Dealer-total {
