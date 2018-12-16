@@ -6,12 +6,21 @@ body {
     color: white;
 }
 
+.instructions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
 .start-game-button{
     font-family: 'Archivo Narrow', sans-serif;
     width: 60px;
     height: 30px;
     margin: 10px;
     border-radius: 10px;
+    
 }
 
 .start-screen {
@@ -20,14 +29,14 @@ body {
     width: 100vw;
 }
 
+
 .container {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-content: center;
     align-items: center;
     /* turn this property on/off after start screen */
-    /* display: none; */
 }
 
 .table {

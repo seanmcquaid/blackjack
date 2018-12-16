@@ -3,9 +3,14 @@ const freshDeck = createDeck();
 let theDeck = freshDeck.slice();
 let playerHand = [];
 let dealerHand = [];
-let gameOn = true;
+
+$(".start-game-button").click(()=>{
+$(".start-screen").css("display", "none");
+$(".container").css("display", "flex");
+})
 
 $(".next-round-button").click(()=>{
+    // reset screen back to original on each round
     playerHand = [];
     dealerHand = [];
     $(".card").html("");
@@ -192,3 +197,4 @@ function stopGame(){
 // 5. include "count for counting cards"
 // 6. create start screen
 // 7. only reveal 
+// 8. 
