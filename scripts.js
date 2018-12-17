@@ -29,6 +29,7 @@ function nextRoundHand(){
     shuffleDeck(theDeck);
     // we have a shuffled deck, now give the players their cards
     // get the first element off of the deck and put it in top card
+    theDeck = freshDeck.slice();
     let topCard = theDeck.shift();
     // put top card in the player hand array
     playerHand.push(topCard);
@@ -103,6 +104,7 @@ function standHand(){
         placeCard("Dealer", dealerHand.length, topCard);
         dealersTotal = cardTotal(dealerHand, "Dealer");
     }
+    checkBust();
     checkWinner();
 }
 
@@ -158,14 +160,13 @@ function cardTotal(hand, who){
         if(thisCardsValue > 10){
             thisCardsValue = 10;
         } else if (thisCardsValue == 1){
+            thisCardsValue = 11;
             hasAce = true;
-            // need to fix this logic
         } 
         handTotal += Number(thisCardsValue);
     })
     if (handTotal > 21 && hasAce === true){
         handTotal -= 10;
-        hasAce = false;
     }
     const classSelector = `.${who}-total`;
     $(classSelector).html(`${who} : ${handTotal}`);
@@ -179,6 +180,9 @@ function checkBust(){
     if(playerTotal > 21){
         stopGame();
         resultsMessage.html("Player Loses")
+    } else if (dealerTotal > 21){
+        stopGame();
+        resultsMessage.html("Dealer Loses")
     }
 }
 
@@ -189,10 +193,10 @@ function checkBlackJack(){
     let resultsMessage = $(".result")
     if (playerTotal === 21 && playerHand.length === 2){
         stopGame();
-        resultsMessage.html("blackjack for the player!")
+        resultsMessage.html("Blackjack for the Player!")
     }else if (dealerTotal === 21 & dealerHand.length === 2){
         stopGame();
-        resultsMessage.html("blackjack for the dealer")
+        resultsMessage.html("Blackjack for the Dealer")
     }
 }
 
@@ -220,3 +224,12 @@ function stopGame(){
     $(".stand-button").css("display", "none");
     $(".next-round-button").css("display", "block");
 }
+
+// things to do still :
+// 1) create point counter for player and dealer
+// 2) create doubleDown option
+// 3) create split option 
+// 4) introduce "count" for the deck
+// 5) have number of cards displayed
+// 6) DRY UP CODE!!! 
+// 7) fix dealer NOT BUSTING
