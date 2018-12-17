@@ -3,6 +3,8 @@ const freshDeck = createDeck();
 let theDeck = freshDeck.slice();
 let playerHand = [];
 let dealerHand = [];
+let playerPoints = 0;
+let dealerPoints = 0;
 
 $(".start-game-button").click(startGame);
 
@@ -19,8 +21,8 @@ function nextRoundHand(){
     dealerHand = [];
     $(".card").html("");
     $(".result").html("");
-    $(".hit-button").on("click");
-    $(".stand-button").on("click");
+    $(".hit-button").on("click", hitHand);
+    $(".stand-button").on("click", standHand);
     $(".hit-button").css("display", "block");
     $(".stand-button").css("display", "block");
     $(".next-round-button").css("display", "none");
@@ -46,6 +48,7 @@ function nextRoundHand(){
     placeCard("Dealer", 2, dealerHand[1]);
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
+    checkBlackJack();
 }
 
 $(".deal-button").click(dealStartingHand);
@@ -77,6 +80,7 @@ function dealStartingHand(){
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
     $(".deal-button").css("display", "none");
+    checkBlackJack();
 }
 
 $(".hit-button").click(hitHand);
@@ -86,7 +90,7 @@ function hitHand(){
     playerHand.push(topCard);
     placeCard("Player", playerHand.length, topCard);
     cardTotal(playerHand, "Player");
-    checkWinner();
+    checkBust();
 }
 
 $(".stand-button").click(standHand);
@@ -168,23 +172,35 @@ function cardTotal(hand, who){
     return handTotal
 }
 
-function checkWinner(){
+function checkBust(){
     const playerTotal = cardTotal(playerHand,"Player");
     const dealerTotal = cardTotal(dealerHand,"Dealer");
     let resultsMessage = $(".result")
     if(playerTotal > 21){
         stopGame();
         resultsMessage.html("Player Loses")
-    }else if (dealerTotal > 21){
-        stopGame();
-        resultsMessage.html("dealer loses")
-    }else if (playerTotal === 21 && playerHand.length === 2){
+    }
+}
+
+
+function checkBlackJack(){
+    const playerTotal = cardTotal(playerHand,"Player");
+    const dealerTotal = cardTotal(dealerHand,"Dealer");
+    let resultsMessage = $(".result")
+    if (playerTotal === 21 && playerHand.length === 2){
         stopGame();
         resultsMessage.html("blackjack for the player!")
     }else if (dealerTotal === 21 & dealerHand.length === 2){
         stopGame();
         resultsMessage.html("blackjack for the dealer")
-    }else if (playerTotal > dealerTotal){
+    }
+}
+
+function checkWinner(){
+    const playerTotal = cardTotal(playerHand,"Player");
+    const dealerTotal = cardTotal(dealerHand,"Dealer");
+    let resultsMessage = $(".result")
+    if (playerTotal > dealerTotal){
         stopGame();
         resultsMessage.html("Player wins!")
     }else if (dealerTotal > playerTotal){
