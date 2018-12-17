@@ -87,6 +87,13 @@ body {
     font-size: 16px;
 }
 
+.points {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
 .buttons-box {
     display: flex;
     align-content: center;
@@ -104,5 +111,9 @@ body {
 }
 
 .next-round-button{
+    display: none;
+}
+
+.end-screen {
     display: none;
 }

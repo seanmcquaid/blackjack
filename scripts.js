@@ -26,10 +26,10 @@ function nextRoundHand(){
     $(".hit-button").css("display", "block");
     $(".stand-button").css("display", "block");
     $(".next-round-button").css("display", "none");
-    shuffleDeck(theDeck);
     // we have a shuffled deck, now give the players their cards
     // get the first element off of the deck and put it in top card
     theDeck = freshDeck.slice();
+    shuffleDeck(theDeck);
     let topCard = theDeck.shift();
     // put top card in the player hand array
     playerHand.push(topCard);
@@ -167,6 +167,7 @@ function cardTotal(hand, who){
     })
     if (handTotal > 21 && hasAce === true){
         handTotal -= 10;
+        hasAce = false;
     }
     const classSelector = `.${who}-total`;
     $(classSelector).html(`${who} : ${handTotal}`);
@@ -180,9 +181,13 @@ function checkBust(){
     if(playerTotal > 21){
         stopGame();
         resultsMessage.html("Player Loses")
+        dealerPoints++;
+        endGame();
     } else if (dealerTotal > 21){
         stopGame();
         resultsMessage.html("Dealer Loses")
+        playerPoints++;
+        endGame();
     }
 }
 
@@ -194,9 +199,13 @@ function checkBlackJack(){
     if (playerTotal === 21 && playerHand.length === 2){
         stopGame();
         resultsMessage.html("Blackjack for the Player!")
+        playerPoints++;
+        endGame();
     }else if (dealerTotal === 21 & dealerHand.length === 2){
         stopGame();
         resultsMessage.html("Blackjack for the Dealer")
+        dealerPoints++;
+        endGame();
     }
 }
 
@@ -204,15 +213,21 @@ function checkWinner(){
     const playerTotal = cardTotal(playerHand,"Player");
     const dealerTotal = cardTotal(dealerHand,"Dealer");
     let resultsMessage = $(".result")
-    if (playerTotal > dealerTotal){
+    if (playerTotal > dealerTotal && playerTotal <= 21 && dealerTotal <= 21){
         stopGame();
         resultsMessage.html("Player wins!")
-    }else if (dealerTotal > playerTotal){
+        playerPoints++;
+        endGame();
+    }else if (dealerTotal > playerTotal && playerTotal <= 21 && dealerTotal <= 21){
         stopGame();
         resultsMessage.html("Dealer wins!")
+        dealerPoints++;
+        endGame();
     }else if(playerTotal === dealerTotal){
         stopGame();
         resultsMessage.html("you tied.....but the dealer wins.....NEEEERDDD")
+        dealerPoints++;
+        endGame();
     }
 }
 
@@ -225,11 +240,26 @@ function stopGame(){
     $(".next-round-button").css("display", "block");
 }
 
+function endGame(){
+    console.log("player");
+    console.log(playerPoints);
+    console.log("dealer");
+    console.log(dealerPoints);
+    if(playerPoints == 10){
+        endGameMessage("Player");
+    } else if (dealerPoints == 10){
+        endGameMessage("Dealer");
+    }
+}
+
+function endGameMessage(who){
+    $(".container").css("display", "none");
+    $(".end-screen").css("display", "block");
+    $(".final-message").html(`${who} wins!!!`);
+    // turn off game
+    // display message stating that who wins
+}
+
 // things to do still :
 // 1) create point counter for player and dealer
-// 2) create doubleDown option
-// 3) create split option 
-// 4) introduce "count" for the deck
-// 5) have number of cards displayed
-// 6) DRY UP CODE!!! 
-// 7) fix dealer NOT BUSTING
+// 2) second dealer card image MUST be facedown until revealed
