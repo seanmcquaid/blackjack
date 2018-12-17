@@ -4,17 +4,24 @@ let theDeck = freshDeck.slice();
 let playerHand = [];
 let dealerHand = [];
 
-$(".start-game-button").click(()=>{
-$(".start-screen").css("display", "none");
-$(".container").css("display", "flex");
-})
+$(".start-game-button").click(startGame);
+
+function startGame(){
+    $(".start-screen").css("display", "none");
+    $(".container").css("display", "flex");
+}
 
 $(".next-round-button").click(()=>{
     // reset screen back to original on each round
     playerHand = [];
     dealerHand = [];
     $(".card").html("");
-    theDeck = freshDeck.slice()
+    $(".result").html("");
+    $(".hit-button").on("click");
+    $(".stand-button").on("click");
+    $(".hit-button").css("display", "block");
+    $(".stand-button").css("display", "block");
+    $(".next-round-button").css("display", "none");
     shuffleDeck(theDeck);
     // we have a shuffled deck, now give the players their cards
     // get the first element off of the deck and put it in top card
@@ -39,7 +46,9 @@ $(".next-round-button").click(()=>{
     cardTotal(dealerHand, "Dealer");
 })
 
-$(".deal-button").click(()=>{
+$(".deal-button").click(dealStartingHand);
+    
+function dealStartingHand(){
     // we need a deck!
     // we need to shuffle it!
     theDeck = freshDeck.slice()
@@ -55,7 +64,7 @@ $(".deal-button").click(()=>{
 
     topCard = theDeck.shift();
     playerHand.push(topCard);
-    
+
     topCard = theDeck.shift();
     dealerHand.push(topCard);
 
@@ -65,8 +74,8 @@ $(".deal-button").click(()=>{
     placeCard("Dealer", 2, dealerHand[1]);
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
-    // $(".deal-button").css("display", "none");
-})
+    $(".deal-button").css("display", "none");
+}
 
 $(".hit-button").click(()=>{
     const topCard = theDeck.shift();
@@ -188,9 +197,3 @@ function stopGame(){
     $(".stand-button").css("display", "none");
     $(".next-round-button").css("display", "block");
 }
-
-// to do :
-// 1. include split option if two cards are equal and deal them an additional card
-// 2. make deal button that will deal new hand for the player
-// 3. include "count for counting cards"
-// 4. fix functionality to reflect actual game flow
