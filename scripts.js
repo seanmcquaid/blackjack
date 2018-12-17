@@ -11,7 +11,9 @@ function startGame(){
     $(".container").css("display", "flex");
 }
 
-$(".next-round-button").click(()=>{
+$(".next-round-button").click(nextRoundHand);
+    
+function nextRoundHand(){
     // reset screen back to original on each round
     playerHand = [];
     dealerHand = [];
@@ -44,7 +46,7 @@ $(".next-round-button").click(()=>{
     placeCard("Dealer", 2, dealerHand[1]);
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
-})
+}
 
 $(".deal-button").click(dealStartingHand);
     
@@ -77,15 +79,19 @@ function dealStartingHand(){
     $(".deal-button").css("display", "none");
 }
 
-$(".hit-button").click(()=>{
+$(".hit-button").click(hitHand);
+
+function hitHand(){
     const topCard = theDeck.shift();
     playerHand.push(topCard);
     placeCard("Player", playerHand.length, topCard);
     cardTotal(playerHand, "Player");
     checkWinner();
-})
+}
 
-$(".stand-button").click(()=>{
+$(".stand-button").click(standHand);
+    
+function standHand(){
     let dealersTotal = cardTotal(dealerHand, "Dealer");
     while (dealersTotal < 17) {
         const topCard = theDeck.shift();
@@ -94,7 +100,7 @@ $(".stand-button").click(()=>{
         dealersTotal = cardTotal(dealerHand, "Dealer");
     }
     checkWinner();
-})
+}
 
 function createDeck(){
     // this is a local variable, no one will know about this but this function
@@ -155,6 +161,7 @@ function cardTotal(hand, who){
     })
     if (handTotal > 21 && hasAce === true){
         handTotal -= 10;
+        hasAce = false;
     }
     const classSelector = `.${who}-total`;
     $(classSelector).html(`${who} : ${handTotal}`);
