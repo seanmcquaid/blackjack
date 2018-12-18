@@ -15,6 +15,8 @@ function startGame(){
     $(".result").html("");
     $(".Player-total").html("");
     $(".Dealer-total").html("");
+    $(".hit-button").off("click");
+    $(".stand-button").off("click");
     playerPoints = 0;
     dealerPoints = 0;
 };
@@ -48,14 +50,11 @@ function nextRoundHand(){
 
     topCard = theDeck.shift();
     playerHand.push(topCard);
-    
-    topCard = theDeck.shift();
-    dealerHand.push(topCard);
 
     placeCard("Player", 1, playerHand[0]);
     placeCard("Dealer", 1, dealerHand[0]);
     placeCard("Player", 2, playerHand[1]);
-    placeCard("Dealer", 2, dealerHand[1]);
+    $(".down").html('<img src="/cards/red_back.png"/>')
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
     checkBlackJack();
@@ -66,6 +65,8 @@ $(".deal-button").click(dealStartingHand);
 function dealStartingHand(){
     // we need a deck!
     // we need to shuffle it!
+    $(".hit-button").on("click", hitHand);
+    $(".stand-button").on("click", standHand);
     $(".player-points").html(`Player: ${playerPoints}`);
     $(".dealer-points").html(`Dealer: ${dealerPoints}`);
     $(".points").css("display", "block")
@@ -83,13 +84,10 @@ function dealStartingHand(){
     topCard = theDeck.shift();
     playerHand.push(topCard);
 
-    topCard = theDeck.shift();
-    dealerHand.push(topCard);
-
     placeCard("Player", 1, playerHand[0]);
     placeCard("Dealer", 1, dealerHand[0]);
     placeCard("Player", 2, playerHand[1]);
-    placeCard("Dealer", 2, dealerHand[1]);
+    $(".down").html('<img src="/cards/red_back.png"/>')
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
     $(".deal-button").css("display", "none");
@@ -109,6 +107,7 @@ function hitHand(){
 $(".stand-button").click(standHand);
     
 function standHand(){
+    // placeCard("Dealer", 2, dealerHand[1]);
     let dealersTotal = cardTotal(dealerHand, "Dealer");
     while (dealersTotal < 17) {
         const topCard = theDeck.shift();
@@ -282,7 +281,4 @@ function playAgain(){
     // clear board, etc
 };
 
-// things to do still :
-// 1) second dealer card image MUST be facedown until revealed
-// 2) potentially restart game?
-// 3) 
+// make proper buttons display on restart
