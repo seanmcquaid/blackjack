@@ -11,7 +11,13 @@ $(".start-game-button").click(startGame);
 function startGame(){
     $(".start-screen").css("display", "none");
     $(".container").css("display", "flex");
-}
+    $(".card").html("");
+    $(".result").html("");
+    $(".Player-total").html("");
+    $(".Dealer-total").html("");
+    playerPoints = 0;
+    dealerPoints = 0;
+};
 
 $(".next-round-button").click(nextRoundHand);
     
@@ -23,6 +29,7 @@ function nextRoundHand(){
     $(".dealer-points").html(`Dealer: ${dealerPoints}`);
     $(".card").html("");
     $(".result").html("");
+    $(".points").css("display", "block");
     $(".hit-button").on("click", hitHand);
     $(".stand-button").on("click", standHand);
     $(".hit-button").css("display", "block");
@@ -52,7 +59,7 @@ function nextRoundHand(){
     cardTotal(playerHand, "Player");
     cardTotal(dealerHand, "Dealer");
     checkBlackJack();
-}
+};
 
 $(".deal-button").click(dealStartingHand);
     
@@ -87,7 +94,7 @@ function dealStartingHand(){
     cardTotal(dealerHand, "Dealer");
     $(".deal-button").css("display", "none");
     checkBlackJack();
-}
+;}
 
 $(".hit-button").click(hitHand);
 
@@ -111,7 +118,7 @@ function standHand(){
     }
     checkBust();
     checkWinner();
-}
+};
 
 function createDeck(){
     // this is a local variable, no one will know about this but this function
@@ -127,7 +134,7 @@ function createDeck(){
         }
     })
     return newDeck;
-}
+};
 
 function shuffleDeck(aDeckToBeShuffled){
     // loop a lot
@@ -149,7 +156,7 @@ function placeCard(who, where, what){
     // what = 1h - 13h, 1s - 13s, 1d - 13d, 1c - 13c
     const classSelector = `.${who}-cards .card-${where}`;
     $(classSelector).html(`<img src="/cards/${what}.png"/>`);
-}
+};
 
 
 function cardTotal(hand, who){
@@ -194,7 +201,7 @@ function checkBust(){
         playerPoints++;
         endGame();
     }
-}
+};
 
 
 function checkBlackJack(){
@@ -212,7 +219,7 @@ function checkBlackJack(){
         dealerPoints++;
         endGame();
     }
-}
+};
 
 function checkWinner(){
     const playerTotal = cardTotal(playerHand,"Player");
@@ -244,19 +251,19 @@ function stopGame(){
     $(".hit-button").css("display", "none");
     $(".stand-button").css("display", "none");
     $(".next-round-button").css("display", "block");
-}
+};
 
 function endGame(){
-    console.log("player");
-    console.log(playerPoints);
-    console.log("dealer");
-    console.log(dealerPoints);
+    // console.log("player");
+    // console.log(playerPoints);
+    // console.log("dealer");
+    // console.log(dealerPoints);
     if(playerPoints == 10){
         endGameMessage("Player");
     } else if (dealerPoints == 10){
         endGameMessage("Dealer");
     }
-}
+};
 
 function endGameMessage(who){
     $(".container").css("display", "none");
@@ -265,15 +272,17 @@ function endGameMessage(who){
     $(".final-message").html(`${who} wins!!!`);
     // turn off game
     // display message stating that who wins
-}
+};
 
 $(".start-over-button").click(playAgain);
 
 function playAgain(){
-    (".end-screen").css("display", "none");
+    $(".end-screen").css("display", "none");
     $(".start-screen").css("display", "block");
-}
+    // clear board, etc
+};
 
 // things to do still :
-// 2) second dealer card image MUST be facedown until revealed
-// potentially restart game?
+// 1) second dealer card image MUST be facedown until revealed
+// 2) potentially restart game?
+// 3) 
