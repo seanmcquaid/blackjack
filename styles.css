@@ -22,14 +22,19 @@ body {
     margin: 20px;
 }
 
-.start-game-button{
-    font-family: 'Archivo Narrow', sans-serif;
-    width: 1200px;
-    height: 40px;
-    margin: 10px;
-    border-radius: 10px;
+.points {
+    display: none;
 }
 
+.player-points {
+    float: left;
+    padding: 20px;
+}
+
+.dealer-points{
+    float: right;
+    padding: 20px;
+}
 
 .container {
     display: none;
@@ -87,12 +92,6 @@ body {
     font-size: 16px;
 }
 
-.points {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-}
 
 .buttons-box {
     display: flex;

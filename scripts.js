@@ -19,6 +19,8 @@ function nextRoundHand(){
     // reset screen back to original on each round
     playerHand = [];
     dealerHand = [];
+    $(".player-points").html(`Player: ${playerPoints}`);
+    $(".dealer-points").html(`Dealer: ${dealerPoints}`);
     $(".card").html("");
     $(".result").html("");
     $(".hit-button").on("click", hitHand);
@@ -57,6 +59,9 @@ $(".deal-button").click(dealStartingHand);
 function dealStartingHand(){
     // we need a deck!
     // we need to shuffle it!
+    $(".player-points").html(`Player: ${playerPoints}`);
+    $(".dealer-points").html(`Dealer: ${dealerPoints}`);
+    $(".points").css("display", "block")
     theDeck = freshDeck.slice()
     shuffleDeck(theDeck);
     // we have a shuffled deck, now give the players their cards
@@ -231,6 +236,7 @@ function checkWinner(){
     }
 }
 
+
 function stopGame(){
     // turn off all event listeners except deal next hand
     $(".hit-button").off("click");
@@ -254,12 +260,20 @@ function endGame(){
 
 function endGameMessage(who){
     $(".container").css("display", "none");
+    $(".points").css("display", "none")
     $(".end-screen").css("display", "block");
     $(".final-message").html(`${who} wins!!!`);
     // turn off game
     // display message stating that who wins
 }
 
+$(".start-over-button").click(playAgain);
+
+function playAgain(){
+    (".end-screen").css("display", "none");
+    $(".start-screen").css("display", "block");
+}
+
 // things to do still :
-// 1) create point counter for player and dealer
 // 2) second dealer card image MUST be facedown until revealed
+// potentially restart game?
