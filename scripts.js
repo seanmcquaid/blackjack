@@ -11,6 +11,10 @@ $(".start-game-button").click(startGame);
 function startGame(){
     $(".start-screen").css("display", "none");
     $(".container").css("display", "flex");
+    $(".deal-button").css("display", "block");
+    $(".next-round-button").css("display", "none");
+    $(".hit-button").css("display", "block");
+    $(".stand-button").css("display", "block");
     $(".card").html("");
     $(".result").html("");
     $(".Player-total").html("");
@@ -281,4 +285,10 @@ function playAgain(){
     // clear board, etc
 };
 
-// make proper buttons display on restart
+// Things To Work On:
+// 1) Double Down
+// 2) Split
+// 3) Chips
+// 4) Time between cards being dealt
+// 5) Improve UI 
+// 6) Make Responsive
